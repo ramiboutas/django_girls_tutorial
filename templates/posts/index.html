@@ -1,11 +1,21 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
+{% block title %} | Posts {% endblock %}
 
-  </body>
-</html>
+{% block content %}
+  <div class="container" style="padding-top: 45px; padding-bottom: 45px; ">
+    <h2 style="padding-bottom: 45px";>Posts</h2>
+    {% for post in posts %}
+      <div class="card" style="width: 48rem; margin-bottom: 30px; ">
+        <img class="card-img-top"
+        {% if post.image %} src="{{post.image.url}}" {% else %} src="{% static 'img/default.jpg' %}" {% endif %}
+        alt="Post image not found">
+        <div class="card-body">
+          <h5 class="card-title">{{ post.title }}</h5>
+          <p class="card-text">{{ post.content|truncatewords:20 }}</p>
+          <a href="{% url 'detail' post.id %}" class="btn btn-primary"> Read more </a>
+        </div>
+      </div>
+    {% endfor %}
+  </div> <!-- container -->
+{% endblock %}

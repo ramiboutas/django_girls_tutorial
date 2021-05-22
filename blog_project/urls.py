@@ -18,8 +18,14 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from posts import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.index, name='index'),
+    path('post/<int:id>/', views.post_detail, name='detail'),
+    path('post/new/', views.post_create, name='create'),
+    path('post/delete/<int:id>/', views.post_delete, name='delete'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

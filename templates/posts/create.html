@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %} | Create a new post {% endblock %}
+
+{% block content %}
+  <div class="container" style="padding-top: 45px; padding-bottom: 45px; ">
+
+      <form class="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" name="" value="Create">
+      </form>
+
+  </div> <!-- container -->
+{% endblock %}
