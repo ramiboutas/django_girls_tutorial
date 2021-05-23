@@ -14,7 +14,7 @@ class Post(models.Model):
         return reverse('detail', kwargs={'id': self.id})
 
 # proxy model -> https://docs.djangoproject.com/en/3.2/topics/db/models/#proxy-models
-class RecentOrderedPost(Post):
+class RecentPosts(Post): # model is plural because its a proxy model, it makes more sense in plural
     class Meta:
         proxy = True
         ordering = ['-date']
