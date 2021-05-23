@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.contrib import messages
 
 from posts.models import Post, RecentPosts
 from posts.forms import PostForm
@@ -28,26 +29,28 @@ def post_detail(request, id):
     return render(request, 'posts/detail.html', context)
 
 
-@login_required(login_url='/')
+@login_required(login_url='/login/')
 def post_create(request):
     form = PostForm(request.POST or None, request.FILES or None)
     context = {'form': form}
     if request.method == 'POST':
         if form.is_valid():
             post = form.save()
+            messages.success(request, 'You just created a post')
             # return HttpResponseRedirect(reverse('detail', args=[post.id])) -> another way
             return HttpResponseRedirect(post.get_absolute_url())
     return render(request, 'posts/create.html', context)
 
 
-@login_required(login_url='/')
+@login_required(login_url='/login/')
 def post_delete(request, id):
     post = get_object_or_404(Post, id=id)
     if request.method == 'POST':
         post.delete()
+        messages.success(request, 'You just deleted the post')
     return HttpResponseRedirect(reverse('index'))
 
-
+@login_required(login_url='/login/')
 def post_update(request, id):
     post = get_object_or_404(Post, id=id)
     form = PostForm(request.POST or None, request.FILES or None, instance=post)
@@ -55,6 +58,7 @@ def post_update(request, id):
     if request.method == 'POST':
         if form.is_valid():
             post = form.save()
+            messages.success(request, 'You just updated the post')
             # return HttpResponseRedirect(reverse('detail', args=[post.id])) -> another way
             return HttpResponseRedirect(post.get_absolute_url())
     return render(request, 'posts/create.html', context)
